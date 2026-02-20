@@ -86,6 +86,14 @@ function CheckIn() {
           </div>
 
           <input
+            name="car_plate"
+            placeholder="ทะเบียนรถ"
+            onChange={handleChange}
+            required
+            className="w-full border p-2 rounded-lg focus:ring-2 focus:ring-indigo-400"
+          />
+
+          <input
             name="phone"
             placeholder="เบอร์โทร"
             onChange={handleChange}
@@ -100,15 +108,10 @@ function CheckIn() {
             className="w-full border p-2 rounded-lg focus:ring-2 focus:ring-indigo-400"
           />
 
-          <input
-            name="car_plate"
-            placeholder="ทะเบียนรถ"
-            onChange={handleChange}
-            required
-            className="w-full border p-2 rounded-lg focus:ring-2 focus:ring-indigo-400"
-          />
+          
 
           {/* 🔥 ชั้น */}
+          <div className="grid grid-cols-2 gap-4">
           <select
             name="floor"
             onChange={handleFloorChange}
@@ -121,6 +124,21 @@ function CheckIn() {
             <option value="3">ชั้น 3</option>
             <option value="4">ชั้น 4</option>
           </select>
+
+          
+          
+          <select
+            name="zone"
+            onChange={handleChange}
+            required
+            className="w-full border p-2 rounded-lg focus:ring-2 focus:ring-indigo-400"
+          >
+            <option value="">เลือกโซน</option>
+            <option value="A">โซน A</option>
+            <option value="B">โซน B</option>
+            <option value="C">โซน C</option>
+          </select>
+          </div>
 
           {/* 🔥 แสดงจำนวนว่าง */}
           {loadingAvailability && (
@@ -141,17 +159,6 @@ function CheckIn() {
             </div>
           )}
 
-          <select
-            name="zone"
-            onChange={handleChange}
-            required
-            className="w-full border p-2 rounded-lg focus:ring-2 focus:ring-indigo-400"
-          >
-            <option value="">เลือกโซน</option>
-            <option value="A">โซน A</option>
-            <option value="B">โซน B</option>
-            <option value="C">โซน C</option>
-          </select>
 
           <input
             name="slot_number"

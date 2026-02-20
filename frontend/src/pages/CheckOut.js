@@ -74,7 +74,7 @@ function CheckOut() {
 
         <div className="bg-green-50 p-4 rounded-xl mb-6">
           <p className="text-lg font-semibold text-green-700">
-            💰 ค่าบริการ
+            ค่าบริการ
           </p>
           <p className="text-3xl font-bold text-green-800">
             {result.total_price} บาท

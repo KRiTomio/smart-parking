@@ -7,6 +7,7 @@ router.get("/status/:id", parkingController.getStatus);
 router.post("/checkout", parkingController.checkOut);
 router.get("/live/:id", parkingController.getLiveStatus);
 router.get("/availability/:floor", parkingController.getAvailableByFloor);
+router.get("/dashboard", parkingController.getDashboard);
 
 
 module.exports = router;

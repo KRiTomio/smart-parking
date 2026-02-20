@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import API from "../api";
 
@@ -8,20 +8,24 @@ function Status() {
 
   const [data, setData] = useState(null);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       const res = await API.get(`/parking/live/${id}`);
       setData(res.data);
     } catch (error) {
       console.error(error);
     }
-  };
+  }, [id]);
 
   useEffect(() => {
     fetchData();
-    const timer = setInterval(fetchData, 1000);
+
+    const timer = setInterval(() => {
+      fetchData();
+    }, 1000);
+
     return () => clearInterval(timer);
-  }, []);
+  }, [fetchData]);
 
   if (!data) return <div className="text-center mt-10">Loading...</div>;
 
@@ -36,17 +40,21 @@ function Status() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 to-blue-300 flex items-center justify-center">
       <div className="bg-white shadow-2xl rounded-2xl p-8 w-[420px]">
-
         <h2 className="text-2xl font-bold text-center text-blue-600 mb-6">
           สถานะการจอดรถ
         </h2>
 
         <div className="space-y-2 text-gray-700">
-          <p><span className="font-semibold">ชื่อ:</span> {data.first_name} {data.last_name}</p>
-          <p><span className="font-semibold">ทะเบียน:</span> {data.car_plate}</p>
           <p>
-            <span className="font-semibold">ตำแหน่ง:</span>{" "}
-            ชั้น {data.floor} / โซน {data.zone} / ช่องจอด {data.slot_number}
+            <span className="font-semibold">ชื่อ:</span> {data.first_name}{" "}
+            {data.last_name}
+          </p>
+          <p>
+            <span className="font-semibold">ทะเบียน:</span> {data.car_plate}
+          </p>
+          <p>
+            <span className="font-semibold">ตำแหน่ง:</span> ชั้น {data.floor} /
+            โซน {data.zone} / ช่องจอด {data.slot_number}
           </p>
         </div>
 
@@ -58,7 +66,7 @@ function Status() {
         </div>
 
         <div className="mt-6 bg-green-50 p-4 rounded-xl text-center">
-          <p className="text-lg font-semibold text-green-700">💰 ค่าบริการ</p>
+          <p className="text-lg font-semibold text-green-700">ค่าบริการ</p>
           <p className="text-3xl font-bold text-green-900">
             {data.current_price} บาท
           </p>

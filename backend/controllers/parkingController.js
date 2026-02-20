@@ -214,3 +214,34 @@ exports.getAvailableByFloor = (req, res) => {
   });
 };
 
+exports.getDashboard = (req, res) => {
+  const TOTAL_PER_FLOOR = 50;
+
+  const sql = `
+    SELECT floor, COUNT(*) as occupied
+    FROM parking_record
+    WHERE status = 'parking'
+    GROUP BY floor
+  `;
+
+  db.query(sql, (err, result) => {
+    if (err) return res.status(500).json({ message: "Database error" });
+
+    const floors = ["1", "2", "3", "4"];
+
+    const floorData = floors.map(f => {
+      const found = result.find(r => r.floor === f);
+      const occupied = found ? found.occupied : 0;
+
+      return {
+        floor: f,
+        occupied,
+        available: TOTAL_PER_FLOOR - occupied,
+        total: TOTAL_PER_FLOOR
+      };
+    });
+
+    res.json(floorData);
+  });
+};
+
